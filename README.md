@@ -54,7 +54,28 @@ Untuk Windows, gunakan `copy .env.example .env` jika perintah `cp` tidak tersedi
 
 ## Membuat Admin
 
-Daftarkan akun melalui halaman register, lalu jalankan:
+### Melalui seeder
+
+Tambahkan kredensial admin ke `.env`:
+
+```env
+ADMIN_NAME="Administrator"
+ADMIN_EMAIL="admin@domain.com"
+ADMIN_PASSWORD="password-yang-kuat"
+```
+
+Lalu jalankan:
+
+```bash
+php artisan config:clear
+php artisan db:seed --class=AdminUserSeeder
+```
+
+Jika database baru, `php artisan migrate --seed` akan menjalankan seeder admin secara otomatis.
+
+Seeder akan membuat akun admin yang sudah terverifikasi. Jika email tersebut sudah ada, seeder hanya memastikan role admin dan verifikasi email tanpa mengubah password.
+
+### Promosikan user yang sudah ada
 
 ```bash
 php artisan user:make-admin email@example.com

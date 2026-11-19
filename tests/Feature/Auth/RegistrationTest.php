@@ -24,6 +24,14 @@ class RegistrationTest extends TestCase
         $this->assertSame(2, substr_count($response->getContent(), "x-bind:type=\"visible ? 'text' : 'password'\""));
     }
 
+    public function test_registration_screen_links_to_the_google_consent_flow(): void
+    {
+        $this->get('/register')
+            ->assertOk()
+            ->assertSee('Daftar dengan Google')
+            ->assertSee('href="'.route('auth.google.register').'"', false);
+    }
+
     public function test_new_users_can_register(): void
     {
         $response = $this->post('/register', [

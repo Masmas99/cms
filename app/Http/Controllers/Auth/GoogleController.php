@@ -19,6 +19,22 @@ class GoogleController extends Controller
      */
     public function redirect(): RedirectResponse|SymfonyRedirectResponse
     {
+        return $this->redirectToGoogle();
+    }
+
+    /**
+     * Redirect the user to Google's OAuth consent screen during registration.
+     */
+    public function redirectForRegistration(): RedirectResponse|SymfonyRedirectResponse
+    {
+        return $this->redirectToGoogle(forceConsent: true);
+    }
+
+    /**
+     * Redirect the user to Google with the requested consent behavior.
+     */
+    private function redirectToGoogle(bool $forceConsent = false): RedirectResponse|SymfonyRedirectResponse
+    {
         if (blank(config('services.google.client_id')) || blank(config('services.google.client_secret'))) {
             return redirect()
                 ->route('login')
@@ -29,7 +45,13 @@ class GoogleController extends Controller
                 ]);
         }
 
-        return Socialite::driver('google')->redirect();
+        $provider = Socialite::driver('google');
+
+        if ($forceConsent) {
+            $provider = $provider->with(['prompt' => 'consent']);
+        }
+
+        return $provider->redirect();
     }
 
     /**

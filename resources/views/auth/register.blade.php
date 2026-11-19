@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <x-google-button label="Daftar dengan Google" />
+        <x-google-button :href="route('auth.google.register')" label="Daftar dengan Google" />
     </form>
 
     <x-slot name="footer">

@@ -4,8 +4,10 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Socialite\Contracts\Provider;
 use Laravel\Socialite\Socialite;
 use Laravel\Socialite\Two\User as SocialiteUser;
+use Mockery;
 use Tests\TestCase;
 
 class GoogleAuthenticationTest extends TestCase
@@ -29,6 +31,18 @@ class GoogleAuthenticationTest extends TestCase
         $this->get(route('auth.google'))->assertRedirect();
     }
 
+    public function test_google_registration_redirects_to_the_consent_screen(): void
+    {
+        $provider = Mockery::mock(Provider::class);
+        $provider->shouldReceive('with')->once()->with(['prompt' => 'consent'])->andReturnSelf();
+        $provider->shouldReceive('redirect')->once()->andReturn(redirect('https://accounts.google.com/o/oauth2/auth?prompt=consent'));
+
+        Socialite::shouldReceive('driver')->once()->with('google')->andReturn($provider);
+
+        $this->get(route('auth.google.register'))
+            ->assertRedirect('https://accounts.google.com/o/oauth2/auth?prompt=consent');
+    }
+
     public function test_google_login_requires_credentials_to_be_configured(): void
     {
         config(['services.google.client_id' => null]);
@@ -38,7 +52,7 @@ class GoogleAuthenticationTest extends TestCase
             ->assertSessionHas('popup', fn (array $popup): bool => $popup['title'] === 'Login Google belum aktif');
     }
 
-    public function test_new_users_are_registered_automatically_with_google(): void
+    public function test_new_users_can_register_with_google(): void
     {
         Socialite::fake('google', SocialiteUser::fake([
             'id' => 'google-123',

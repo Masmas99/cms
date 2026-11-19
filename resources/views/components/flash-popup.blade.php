@@ -1,6 +1,14 @@
 @php
     $popup = session('popup');
 
+    if (blank($popup) && filled(session('success'))) {
+        $popup = ['type' => 'success', 'title' => 'Berhasil', 'message' => session('success')];
+    } elseif (blank($popup) && filled(session('warning'))) {
+        $popup = ['type' => 'warning', 'title' => 'Perlu diperhatikan', 'message' => session('warning')];
+    } elseif (blank($popup) && filled(session('error'))) {
+        $popup = ['type' => 'error', 'title' => 'Tidak dapat diproses', 'message' => session('error')];
+    }
+
     if (blank($popup) && isset($errors) && $errors->has('google')) {
         $popup = [
             'type' => 'error',

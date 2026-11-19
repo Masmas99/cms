@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'wms_url' => env('WMS_URL', 'http://20.92.125.158.sslip.io:8088/'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

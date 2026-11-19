@@ -16,20 +16,22 @@ class AdminAccessTest extends TestCase
 
         $this->actingAs($admin)
             ->get('/admin')
-            ->assertOk();
+            ->assertOk()
+            ->assertViewIs('pages.admin.dashboard');
     }
 
-    public function test_admin_dashboard_uses_the_same_summary_card_as_the_user_dashboard(): void
+    public function test_admin_dashboard_uses_the_operational_dashboard(): void
     {
-        $admin = User::factory()->admin()->create(['name' => 'Mashudi']);
+        $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)
             ->get('/admin')
             ->assertOk()
-            ->assertSee('Selamat datang kembali, Mashudi.')
-            ->assertSee('Ringkasan')
-            ->assertSee('Anda berhasil masuk')
-            ->assertSee('Gunakan menu di sebelah kiri untuk mengakses dashboard dan pengaturan profil Anda.');
+            ->assertViewIs('pages.admin.dashboard')
+            ->assertSee('Operasional gudang')
+            ->assertSee('Stok fisik')
+            ->assertSee('Nilai aset stok')
+            ->assertSee('Menunggu approval');
     }
 
     public function test_regular_users_cannot_access_the_admin_dashboard(): void
@@ -91,17 +93,20 @@ class AdminAccessTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    public function test_admin_dashboard_shows_the_admin_panel_link(): void
+    public function test_admin_dashboard_shows_the_dashboard_link(): void
     {
         $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)
             ->get('/admin')
             ->assertOk()
-            ->assertSee('Panel admin')
+            ->assertSee('Dashboard')
+            ->assertSee('Master data')
             ->assertSee('Manajemen user')
+            ->assertSee('Penyesuaian')
             ->assertSee(route('admin.dashboard'), false)
             ->assertSee(route('admin.users.index'), false)
+            ->assertSee(route('admin.wms.adjustments.index'), false)
             ->assertDontSee(route('dashboard'), false);
     }
 
@@ -113,8 +118,12 @@ class AdminAccessTest extends TestCase
             ->get('/ess')
             ->assertOk()
             ->assertSee('Dashboard')
+            ->assertSee('Penyesuaian')
             ->assertSee(route('dashboard'), false)
-            ->assertDontSee('Panel admin')
+            ->assertSee(route('ess.wms.adjustments.index'), false)
+            ->assertDontSee(route('admin.dashboard'), false)
+            ->assertDontSee(route('admin.wms.adjustments.index'), false)
+            ->assertDontSee('Master data')
             ->assertDontSee('Manajemen user');
     }
 

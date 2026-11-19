@@ -17,7 +17,9 @@ class ExampleTest extends TestCase
             ->assertSee('Rumitech')
             ->assertSee('Under Construction')
             ->assertSee('Currently under construction')
-            ->assertSee('images/logo.webp');
+            ->assertSee('images/logo.webp')
+            ->assertSee('images/banner.webp')
+            ->assertSee('http://20.92.125.158.sslip.io:8088/', false);
     }
 
     public function test_authenticated_users_also_see_the_under_construction_page(): void

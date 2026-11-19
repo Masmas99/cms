@@ -16,6 +16,14 @@ class RegistrationTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_registration_screen_has_password_visibility_toggles(): void
+    {
+        $response = $this->get('/register');
+
+        $response->assertOk();
+        $this->assertSame(2, substr_count($response->getContent(), "x-bind:type=\"visible ? 'text' : 'password'\""));
+    }
+
     public function test_new_users_can_register(): void
     {
         $response = $this->post('/register', [

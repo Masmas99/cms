@@ -17,6 +17,14 @@ class AuthenticationTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_login_screen_has_a_password_visibility_toggle(): void
+    {
+        $this->get('/login')
+            ->assertOk()
+            ->assertSee("x-bind:type=\"visible ? 'text' : 'password'\"", false)
+            ->assertSee('Tampilkan kata sandi', false);
+    }
+
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();

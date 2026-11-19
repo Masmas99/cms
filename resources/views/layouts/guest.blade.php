@@ -29,49 +29,45 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-slate-900 antialiased">
-        <div class="flex min-h-screen bg-slate-50">
+        <div class="flex min-h-screen bg-white lg:h-screen lg:overflow-hidden">
             <!-- Banner -->
-            <aside class="relative hidden overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-indigo-900 lg:block lg:w-1/2 xl:w-[55%]">
+            <aside class="relative hidden overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-indigo-900 lg:block lg:h-full lg:w-1/2 xl:w-[55%]">
                 @if ($bannerFile)
                     <img src="{{ asset($bannerFile) }}" alt="" class="absolute inset-0 h-full w-full object-cover object-center">
                 @endif
             </aside>
 
             <!-- Form -->
-            <main class="flex flex-1 flex-col">
-                <div class="flex flex-1 items-center justify-center px-6 py-10 sm:px-10">
-                    <div class="w-full max-w-md">
-                        <a href="{{ url('/') }}" class="mb-8 inline-flex items-center gap-2.5 lg:hidden">
-                            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm">
+            <main class="relative flex flex-1 flex-col overflow-hidden">
+                <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-50 blur-3xl" aria-hidden="true"></div>
+                <div class="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-violet-50 blur-3xl" aria-hidden="true"></div>
+
+                <div class="relative flex flex-1 px-6 py-8 sm:px-10 lg:overflow-y-auto lg:py-5">
+                    <div class="m-auto w-full max-w-[26rem]">
+                        <a href="{{ url('/') }}" aria-label="Kembali ke halaman utama" class="mb-5 inline-flex items-center">
+                            <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/25">
                                 <x-application-logo class="h-6 w-6 fill-current" />
                             </span>
-                            <span class="text-base font-semibold tracking-tight text-slate-900">{{ config('app.name', 'Laravel') }}</span>
                         </a>
 
                         @if ($title)
-                            <div class="mb-8">
-                                <h1 class="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">{{ $title }}</h1>
+                            <div class="mb-5">
+                                <h1 class="text-3xl font-semibold tracking-tight text-slate-900">{{ $title }}</h1>
                                 @if ($subtitle)
                                     <p class="mt-2 text-sm leading-relaxed text-slate-500">{{ $subtitle }}</p>
                                 @endif
                             </div>
                         @endif
 
-                        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
-                            {{ $slot }}
-                        </div>
+                        {{ $slot }}
 
                         @isset($footer)
-                            <div class="mt-6 text-center text-sm text-slate-500">
+                            <div class="mt-5 border-t border-slate-200 pt-4 text-center text-sm text-slate-500">
                                 {{ $footer }}
                             </div>
                         @endisset
                     </div>
                 </div>
-
-                <footer class="px-6 pb-6 text-center text-xs text-slate-400">
-                    © {{ date('Y') }} {{ config('app.name', 'Laravel') }} · Semua hak dilindungi.
-                </footer>
             </main>
         </div>
 

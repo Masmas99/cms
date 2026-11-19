@@ -23,7 +23,7 @@ class DashboardTest extends TestCase
             ->assertSee('Dashboard')
             ->assertSee('Profil')
             ->assertSee('Keluar')
-            ->assertSee('images/logo.png');
+            ->assertSee('images/logo.webp');
     }
 
     public function test_legacy_dashboard_url_redirects_to_the_ess_page(): void

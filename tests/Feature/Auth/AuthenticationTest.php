@@ -15,7 +15,7 @@ class AuthenticationTest extends TestCase
         $response = $this->get('/login');
 
         $response->assertStatus(200)
-            ->assertSee('images/logo.png');
+            ->assertSee('images/logo.webp');
     }
 
     public function test_login_screen_has_a_password_visibility_toggle(): void

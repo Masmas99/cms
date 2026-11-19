@@ -17,7 +17,7 @@ class ExampleTest extends TestCase
             ->assertSee('Rumitech')
             ->assertSee('Under Construction')
             ->assertSee('Currently under construction')
-            ->assertSee('images/logo.png');
+            ->assertSee('images/logo.webp');
     }
 
     public function test_authenticated_users_also_see_the_under_construction_page(): void

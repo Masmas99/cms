@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Rumitech')
             ->brandLogo(fn (): View => view('pages.admin.brand'))
             ->brandLogoHeight('2.5rem')
-            ->favicon(asset('images/logo.png'))
+            ->favicon(asset('images/logo.webp'))
             ->font('Figtree')
             ->colors([
                 'primary' => Color::Blue,

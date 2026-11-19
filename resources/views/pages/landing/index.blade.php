@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="robots" content="noindex, nofollow">
 
-        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}?v={{ filemtime(public_path('images/logo.png')) }}">
+        <link rel="icon" type="image/webp" href="{{ asset('images/logo.webp') }}?v={{ filemtime(public_path('images/logo.webp')) }}">
 
         <title>Rumitech · Under Construction</title>
 

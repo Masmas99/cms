@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="public/images/logo.png" alt="Rumitech Logo" width="120">
+    <img src="public/images/logo.webp" alt="Rumitech Logo" width="120">
 </p>
 
 <h1 align="center">Rumitech</h1>

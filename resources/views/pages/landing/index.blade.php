@@ -10,6 +10,25 @@
 
         <title>Rumitech · Under Construction</title>
 
+        <meta name="description" content="Rumitech adalah aplikasi WMS untuk mengelola stok, barang masuk, barang keluar, dan operasional gudang.">
+
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Rumitech">
+        <meta property="og:locale" content="id_ID">
+        <meta property="og:title" content="Rumitech · Warehouse Management System">
+        <meta property="og:description" content="Aplikasi WMS untuk mengelola stok, barang masuk, barang keluar, dan operasional gudang.">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:image" content="{{ asset('images/banner.webp') }}?v={{ filemtime(public_path('images/banner.webp')) }}">
+        <meta property="og:image:width" content="1024">
+        <meta property="og:image:height" content="572">
+        <meta property="og:image:alt" content="Rumitech Warehouse Management System">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Rumitech · Warehouse Management System">
+        <meta name="twitter:description" content="Aplikasi WMS untuk mengelola stok, barang masuk, barang keluar, dan operasional gudang.">
+        <meta name="twitter:image" content="{{ asset('images/banner.webp') }}?v={{ filemtime(public_path('images/banner.webp')) }}">
+        <meta name="twitter:image:alt" content="Rumitech Warehouse Management System">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />

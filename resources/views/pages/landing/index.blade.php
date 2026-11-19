@@ -17,51 +17,41 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="min-h-screen bg-brand-950 font-sans text-slate-100 antialiased">
+    <body class="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased">
         <div class="relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-16">
-            <!-- Gradasi gelap bernuansa brand -->
-            <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-950 to-black"></div>
+            <!-- Soft background accents -->
+            <div class="pointer-events-none absolute -top-40 left-1/2 h-96 w-[46rem] -translate-x-1/2 rounded-full bg-violet-600/25 blur-3xl"></div>
+            <div class="pointer-events-none absolute -bottom-32 -right-24 h-80 w-80 rounded-full bg-indigo-600/20 blur-3xl"></div>
 
-            <main class="relative w-full max-w-4xl text-center">
-                <a
-                    href="{{ config('app.wms_url') }}"
-                    class="group mx-auto block w-full max-w-3xl overflow-hidden rounded-card shadow-2xl shadow-brand-950/60 ring-1 ring-white/15 transition hover:-translate-y-0.5 hover:shadow-brand-950/80 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 focus:ring-offset-brand-950"
-                    aria-label="Buka aplikasi Rumitech"
-                >
-                    <img
-                        src="{{ asset('images/banner.webp') }}"
-                        alt="Rumitech Warehouse Management System"
-                        width="1024"
-                        height="572"
-                        fetchpriority="high"
-                        class="h-auto w-full transition duration-500 group-hover:scale-[1.015]"
-                    >
-                </a>
-
-                <div class="mx-auto mt-8 max-w-lg">
-                    <span class="inline-flex items-center rounded-full border border-brand-400/30 bg-brand-400/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-200">
-                        Currently under construction
-                    </span>
-
-                    <h1 class="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-                        Under Construction
-                    </h1>
-
-                    <p class="mx-auto mt-4 max-w-md text-base leading-relaxed text-brand-100/80">
-                        Kami sedang menyiapkan tampilan dan fitur baru. Silakan kembali lagi nanti.
-                    </p>
-
-                    <div class="mt-8">
-                        <a href="{{ config('app.wms_url') }}" class="inline-flex items-center justify-center gap-2 rounded-control bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-950/40 transition hover:bg-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 focus:ring-offset-brand-950 active:bg-brand-700">
-                            Masuk ke aplikasi
-                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                            </svg>
-                        </a>
-                    </div>
+            <main class="relative w-full max-w-xl text-center">
+                <div class="mx-auto h-16 w-16">
+                    <x-application-logo class="h-full w-full rounded-[1.5rem] object-cover shadow-2xl shadow-blue-600/30 ring-1 ring-white/10" />
                 </div>
 
-                <p class="mt-14 text-xs text-brand-200/60">© {{ date('Y') }} Rumitech</p>
+                <div class="mt-8">
+                    <span class="inline-flex items-center rounded-full border border-violet-400/25 bg-violet-400/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-300">
+                        Currently under construction
+                    </span>
+                </div>
+
+                <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+                    Under Construction
+                </h1>
+
+                <p class="mx-auto mt-4 max-w-md text-base leading-relaxed text-slate-400">
+                    Kami sedang menyiapkan tampilan dan fitur baru. Silakan kembali lagi nanti.
+                </p>
+
+                <div class="mt-10">
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-slate-200 backdrop-blur-sm transition hover:border-violet-400/40 hover:bg-violet-500/10 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-offset-2 focus:ring-offset-slate-950">
+                        Masuk ke aplikasi
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                        </svg>
+                    </a>
+                </div>
+
+                <p class="mt-16 text-xs text-slate-600">© {{ date('Y') }} Rumitech</p>
             </main>
         </div>
     </body>

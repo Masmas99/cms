@@ -2,18 +2,39 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
-    public function test_the_application_returns_a_successful_response(): void
-    {
-        $response = $this->get('/');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    public function test_guests_see_the_under_construction_page(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Under Construction')
+            ->assertSee('Currently under construction');
+    }
+
+    public function test_authenticated_users_also_see_the_under_construction_page(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get('/')
+            ->assertOk()
+            ->assertSee('Under Construction');
+    }
+
+    public function test_authenticated_users_can_view_the_dashboard(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Dashboard');
     }
 }

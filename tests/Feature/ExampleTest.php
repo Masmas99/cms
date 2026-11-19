@@ -14,8 +14,10 @@ class ExampleTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
+            ->assertSee('Rumitech')
             ->assertSee('Under Construction')
-            ->assertSee('Currently under construction');
+            ->assertSee('Currently under construction')
+            ->assertSee('images/logo.png');
     }
 
     public function test_authenticated_users_also_see_the_under_construction_page(): void
@@ -33,8 +35,9 @@ class ExampleTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            ->get('/dashboard')
+            ->get('/ess')
             ->assertOk()
+            ->assertSee('Rumitech')
             ->assertSee('Dashboard');
     }
 }

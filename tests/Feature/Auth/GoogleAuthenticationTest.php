@@ -63,7 +63,8 @@ class GoogleAuthenticationTest extends TestCase
 
         $response = $this->get(route('auth.google.callback'));
 
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('dashboard', absolute: false))
+            ->assertSessionHas('welcome', 'register');
         $this->assertAuthenticated();
 
         $this->assertDatabaseHas('users', [
@@ -91,7 +92,8 @@ class GoogleAuthenticationTest extends TestCase
 
         $response = $this->get(route('auth.google.callback'));
 
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('dashboard', absolute: false))
+            ->assertSessionHas('welcome', 'login');
         $this->assertAuthenticatedAs($user);
     }
 
@@ -105,7 +107,8 @@ class GoogleAuthenticationTest extends TestCase
             'email' => $user->email,
         ]));
 
-        $this->get(route('auth.google.callback'));
+        $this->get(route('auth.google.callback'))
+            ->assertSessionHas('welcome', 'login');
 
         $this->assertAuthenticatedAs($user);
         $this->assertDatabaseHas('users', [

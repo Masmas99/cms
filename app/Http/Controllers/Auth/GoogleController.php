@@ -88,7 +88,9 @@ class GoogleController extends Controller
         $user = User::query()->where('google_id', $googleUser->getId())->first()
             ?? User::query()->where('email', $email)->first();
 
-        if ($user === null) {
+        $isNewUser = $user === null;
+
+        if ($isNewUser) {
             $user = User::create([
                 'name' => $googleUser->getName() ?? $googleUser->getNickname() ?? Str::before($email, '@'),
                 'email' => $email,
@@ -109,6 +111,8 @@ class GoogleController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()
+            ->intended(route('dashboard', absolute: false))
+            ->with('welcome', $isNewUser ? 'register' : 'login');
     }
 }

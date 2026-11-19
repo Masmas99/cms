@@ -14,7 +14,8 @@ class AuthenticationTest extends TestCase
     {
         $response = $this->get('/login');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertSee('images/logo.png');
     }
 
     public function test_login_screen_has_a_password_visibility_toggle(): void
@@ -35,7 +36,8 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('dashboard', absolute: false))
+            ->assertSessionHas('welcome', 'login');
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void

@@ -5,34 +5,70 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}?v={{ filemtime(public_path('images/logo.png')) }}">
+
+        <title>{{ config('app.name', 'Rumitech') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+    <body class="font-sans text-slate-900 antialiased">
+        <div
+            x-data="{
+                sidebarOpen: false,
+                sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true',
+                isDesktop: window.innerWidth >= 1024,
+                init() {
+                    this.$watch('sidebarCollapsed', (value) => localStorage.setItem('sidebarCollapsed', value));
+                },
+            }"
+            @resize.window="isDesktop = window.innerWidth >= 1024"
+            class="min-h-screen bg-blue-50"
+        >
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+            <div :class="sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-72'" class="transition-[padding] duration-300">
+                <!-- Mobile top bar -->
+                <header class="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-blue-100 bg-white/90 px-4 backdrop-blur lg:hidden">
+                    <button
+                        type="button"
+                        @click="sidebarOpen = true"
+                        class="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        aria-controls="app-sidebar"
+                    >
+                        <span class="sr-only">Buka menu</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                    <a href="{{ Auth::user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" class="flex items-center gap-2.5">
+                        <x-application-logo class="h-8 w-8 rounded-xl object-cover shadow-sm shadow-blue-600/20 ring-1 ring-blue-100" />
+                        <span class="text-sm font-semibold tracking-tight text-slate-900">Rumitech</span>
+                    </a>
+                </header>
+
+                <!-- Page Heading -->
+                @isset($header)
+                    <header class="border-b border-blue-100 bg-white">
+                        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
+
+                <!-- Page Content -->
+                <main>
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
 
+        <x-welcome-toast />
         <x-flash-popup />
     </body>
 </html>

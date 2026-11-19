@@ -6,7 +6,9 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="robots" content="noindex, nofollow">
 
-        <title>Under Construction</title>
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}?v={{ filemtime(public_path('images/logo.png')) }}">
+
+        <title>Rumitech · Under Construction</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -22,10 +24,8 @@
             <div class="pointer-events-none absolute -bottom-32 -right-24 h-80 w-80 rounded-full bg-indigo-600/20 blur-3xl"></div>
 
             <main class="relative w-full max-w-xl text-center">
-                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/5 ring-1 ring-inset ring-white/10 backdrop-blur-sm">
-                    <svg class="h-7 w-7 text-violet-300" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
-                    </svg>
+                <div class="mx-auto h-16 w-16">
+                    <x-application-logo class="h-full w-full rounded-[1.5rem] object-cover shadow-2xl shadow-blue-600/30 ring-1 ring-white/10" />
                 </div>
 
                 <div class="mt-8">
@@ -51,7 +51,7 @@
                     </a>
                 </div>
 
-                <p class="mt-16 text-xs text-slate-600">© {{ date('Y') }}</p>
+                <p class="mt-16 text-xs text-slate-600">© {{ date('Y') }} Rumitech</p>
             </main>
         </div>
     </body>

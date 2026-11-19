@@ -19,7 +19,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $title ? $title.' · '.config('app.name', 'Laravel') : config('app.name', 'Laravel') }}</title>
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}?v={{ filemtime(public_path('images/logo.png')) }}">
+
+        <title>{{ $title ? $title.' · '.config('app.name', 'Rumitech') : config('app.name', 'Rumitech') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -45,9 +47,7 @@
                 <div class="relative flex flex-1 px-6 py-8 sm:px-10 lg:overflow-y-auto lg:py-5">
                     <div class="m-auto w-full max-w-[26rem]">
                         <a href="{{ url('/') }}" aria-label="Kembali ke halaman utama" class="mb-5 inline-flex items-center">
-                            <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/25">
-                                <x-application-logo class="h-6 w-6 fill-current" />
-                            </span>
+                            <x-application-logo class="h-10 w-10 rounded-2xl object-cover shadow-lg shadow-blue-600/25 ring-1 ring-blue-100" />
                         </a>
 
                         @if ($title)

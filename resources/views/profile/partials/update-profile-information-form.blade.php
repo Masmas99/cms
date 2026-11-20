@@ -62,3 +62,59 @@
         </div>
     </form>
 </section>
+
+<section class="mt-10">
+    <header>
+        <h2 class="text-lg font-medium text-gray-900">
+            {{ __('Profile Photo') }}
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600">
+            {{ __('Upload a new profile photo. JPG, PNG or WEBP, max 2 MB.') }}
+        </p>
+    </header>
+
+    <form method="post" action="{{ route('profile.photo.update') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
+        @csrf
+
+        <div class="flex items-center gap-4">
+            @if ($user->avatar)
+                <img
+                    src="{{ str_starts_with($user->avatar, 'http') ? $user->avatar : \Illuminate\Support\Facades\Storage::url($user->avatar) }}"
+                    alt="{{ $user->name }}"
+                    class="h-16 w-16 rounded-full object-cover"
+                >
+            @else
+                <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-200 text-gray-500">
+                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                </div>
+            @endif
+
+            <div class="flex-1">
+                <x-input-label for="photo" :value="__('Choose photo')" />
+                <input
+                    id="photo"
+                    name="photo"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    class="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-indigo-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-indigo-700 hover:file:bg-indigo-100"
+                />
+                <x-input-error class="mt-2" :messages="$errors->get('photo')" />
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <x-primary-button>{{ __('Upload Photo') }}</x-primary-button>
+
+            @if (session('status') === 'profile-photo-updated')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600"
+                >{{ __('Photo updated.') }}</p>
+            @endif
+        </div>
+    </form>
+</section>

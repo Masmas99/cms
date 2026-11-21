@@ -25,7 +25,9 @@ class AdminUserManagementTest extends TestCase
             ->assertSee('Manajemen User')
             ->assertSee('Budi Santoso')
             ->assertSee('budi@example.com')
-            ->assertSee(route('admin.users.create'), false);
+            ->assertSee(route('admin.users.create'), false)
+            ->assertSee('Edit Budi Santoso', false)
+            ->assertSee('confirmDelete', false);
     }
 
     public function test_user_management_uses_the_application_pagination_style(): void

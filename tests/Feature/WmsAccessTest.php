@@ -300,6 +300,10 @@ class WmsAccessTest extends TestCase
             $this->get($route)->assertOk();
         }
 
+        $this->get('/admin/products')
+            ->assertOk()
+            ->assertSee('wms-delete', false);
+
         $purchaseOrder = PurchaseOrder::query()->firstOrFail();
         $salesOrder = SalesOrder::query()->firstOrFail();
         $opname = StockOpname::query()->firstOrFail();

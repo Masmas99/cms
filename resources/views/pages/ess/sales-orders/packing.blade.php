@@ -103,7 +103,7 @@
                             <x-wms.select id="courier_id" name="courier_id">
                                 <option value="">Tanpa ekspedisi</option>
                                 @foreach ($couriers as $courier)
-                                    <option value="{{ $courier->id }}" @selected((int) old('courier_id') === $courier->id)>{{ $courier->name }}</option>
+                                    <option value="{{ $courier->id }}" @selected(old('courier_id') === $courier->id)>{{ $courier->name }}</option>
                                 @endforeach
                             </x-wms.select>
                         </x-wms.field>

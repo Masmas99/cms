@@ -99,13 +99,13 @@
                                                     icon="check-circle"
                                                     label="Setujui {{ $adjustment->reference_no }}"
                                                     variant="success"
-                                                    @click="$dispatch('wms-adjust', { mode: 'approve', action: @js(wms_route('adjustments.approve', $adjustment)), reference: @js($adjustment->reference_no) })"
+                                                    x-on:click="$dispatch('wms-adjust', { mode: 'approve', action: {{ Js::from(wms_route('adjustments.approve', $adjustment)) }}, reference: {{ Js::from($adjustment->reference_no) }} })"
                                                 />
                                                 <x-wms.icon-button
                                                     icon="x-mark"
                                                     label="Tolak {{ $adjustment->reference_no }}"
                                                     variant="danger"
-                                                    @click="$dispatch('wms-adjust', { mode: 'reject', action: @js(wms_route('adjustments.reject', $adjustment)), reference: @js($adjustment->reference_no) })"
+                                                    x-on:click="$dispatch('wms-adjust', { mode: 'reject', action: {{ Js::from(wms_route('adjustments.reject', $adjustment)) }}, reference: {{ Js::from($adjustment->reference_no) }} })"
                                                 />
                                             </div>
                                         @else

@@ -15,6 +15,7 @@ use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Js;
 use Tests\TestCase;
 
 class WmsAccessTest extends TestCase
@@ -531,5 +532,65 @@ class WmsAccessTest extends TestCase
         $this->assertStringContainsString('Kartu Stok', $content);
         $this->assertStringContainsString('Produk Uji', $content);
         $this->assertStringContainsString('SKU-001', $content);
+    }
+
+    public function test_adjustment_actions_use_valid_alpine_handlers_and_show_a_success_popup(): void
+    {
+        [$admin, , $bin, $product] = $this->fixture();
+
+        $stock = InventoryStock::query()
+            ->where('location_id', $bin->id)
+            ->where('product_id', $product->id)
+            ->firstOrFail();
+
+        $adjustment = StockAdjustment::create([
+            'reference_no' => 'ADJ-TEST-001',
+            'product_id' => $product->id,
+            'location_id' => $bin->id,
+            'batch_number' => $stock->batch_number,
+            'quantity_difference' => 1,
+            'reason' => 'Koreksi hasil hitung fisik',
+            'status' => StockAdjustment::STATUS_PENDING,
+            'requested_by' => $admin->id,
+        ]);
+
+        $rejectedAdjustment = StockAdjustment::create([
+            'reference_no' => 'ADJ-TEST-002',
+            'product_id' => $product->id,
+            'location_id' => $bin->id,
+            'batch_number' => $stock->batch_number,
+            'quantity_difference' => -1,
+            'reason' => 'Koreksi tidak sesuai',
+            'status' => StockAdjustment::STATUS_PENDING,
+            'requested_by' => $admin->id,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(wms_route('adjustments.index'))
+            ->assertOk()
+            ->assertSee('x-on:click', false)
+            ->assertSee(Js::from(wms_route('adjustments.approve', $adjustment)), false)
+            ->assertSee(Js::from(wms_route('adjustments.reject', $adjustment)), false)
+            ->assertDontSee('@js(', false);
+
+        $this->actingAs($admin)
+            ->post(wms_route('adjustments.approve', $adjustment))
+            ->assertSessionHas('success');
+
+        $this->actingAs($admin)
+            ->get(wms_route('adjustments.index'))
+            ->assertSee('Berhasil')
+            ->assertSee('disetujui dan stok diperbarui');
+
+        $this->actingAs($admin)
+            ->post(wms_route('adjustments.reject', $rejectedAdjustment), [
+                'decision_note' => 'Tidak sesuai hasil hitung',
+            ])
+            ->assertSessionHas('success');
+
+        $this->actingAs($admin)
+            ->get(wms_route('adjustments.index'))
+            ->assertSee('Berhasil')
+            ->assertSee('ditolak tanpa mengubah stok');
     }
 }

@@ -60,7 +60,7 @@
                                                     icon="trash"
                                                     label="Hapus {{ $courier->name }}"
                                                     variant="danger"
-                                                    @click="$dispatch('wms-delete', { action: @js(wms_route('couriers.destroy', $courier)), name: @js($courier->name) })"
+                                                    x-on:click="$dispatch('wms-delete', { action: {{ Js::from(wms_route('couriers.destroy', $courier)) }}, name: {{ Js::from($courier->name) }} })"
                                                 />
                                             @else
                                                 <span class="text-xs text-slate-400">Lihat</span>

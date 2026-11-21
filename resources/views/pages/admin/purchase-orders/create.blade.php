@@ -37,7 +37,7 @@
                             <x-wms.select id="supplier_id" name="supplier_id" required>
                                 <option value="">Pilih pemasok</option>
                                 @foreach ($suppliers as $supplier)
-                                    <option value="{{ $supplier->id }}" @selected((int) old('supplier_id') === $supplier->id)>{{ $supplier->code }} - {{ $supplier->name }}</option>
+                                    <option value="{{ $supplier->id }}" @selected(old('supplier_id') === $supplier->id)>{{ $supplier->code }} - {{ $supplier->name }}</option>
                                 @endforeach
                             </x-wms.select>
                         </x-wms.field>
@@ -46,7 +46,7 @@
                             <x-wms.select id="warehouse_id" name="warehouse_id" required>
                                 <option value="">Pilih gudang</option>
                                 @foreach ($warehouses as $warehouse)
-                                    <option value="{{ $warehouse->id }}" @selected((int) old('warehouse_id') === $warehouse->id)>{{ $warehouse->code }} - {{ $warehouse->name }}</option>
+                                    <option value="{{ $warehouse->id }}" @selected(old('warehouse_id') === $warehouse->id)>{{ $warehouse->code }} - {{ $warehouse->name }}</option>
                                 @endforeach
                             </x-wms.select>
                         </x-wms.field>

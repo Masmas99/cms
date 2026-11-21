@@ -107,7 +107,7 @@
                                                     icon="trash"
                                                     label="Hapus {{ $product->name }}"
                                                     variant="danger"
-                                                    @click="$dispatch('wms-delete', { action: @js(wms_route('products.destroy', $product)), name: @js($product->name) })"
+                                                    x-on:click="$dispatch('wms-delete', { action: {{ Js::from(wms_route('products.destroy', $product)) }}, name: {{ Js::from($product->name) }} })"
                                                 />
                                             @endif
                                         </div>

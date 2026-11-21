@@ -78,7 +78,7 @@
                                                     icon="trash"
                                                     label="Hapus {{ $supplier->name }}"
                                                     variant="danger"
-                                                    @click="$dispatch('wms-delete', { action: @js(wms_route('suppliers.destroy', $supplier)), name: @js($supplier->name) })"
+                                                    x-on:click="$dispatch('wms-delete', { action: {{ Js::from(wms_route('suppliers.destroy', $supplier)) }}, name: {{ Js::from($supplier->name) }} })"
                                                 />
                                             @else
                                                 <span class="text-xs text-slate-400">Lihat</span>

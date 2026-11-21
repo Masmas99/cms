@@ -75,7 +75,7 @@
                                                     icon="trash"
                                                     label="Hapus {{ $warehouse->name }}"
                                                     variant="danger"
-                                                    @click="$dispatch('wms-delete', { action: @js(wms_route('warehouses.destroy', $warehouse)), name: @js($warehouse->name) })"
+                                                    x-on:click="$dispatch('wms-delete', { action: {{ Js::from(wms_route('warehouses.destroy', $warehouse)) }}, name: {{ Js::from($warehouse->name) }} })"
                                                 />
                                             @endif
                                         </div>

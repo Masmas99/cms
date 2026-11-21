@@ -157,7 +157,7 @@
                                                     icon="trash"
                                                     label="Hapus {{ $user->name }}"
                                                     variant="danger"
-                                                    @click="confirmDelete(@js(route('admin.users.destroy', $user)), @js($user->name))"
+                                                    x-on:click="confirmDelete({{ Js::from(route('admin.users.destroy', $user)) }}, {{ Js::from($user->name) }})"
                                                 />
                                             @endif
                                         </div>

@@ -19,7 +19,7 @@
                 <x-wms.select id="warehouse_id" name="warehouse_id" required>
                     <option value="">Pilih gudang</option>
                     @foreach ($warehouses as $warehouse)
-                        <option value="{{ $warehouse->id }}" @selected((int) old('warehouse_id', $location->warehouse_id) === $warehouse->id)>{{ $warehouse->code }} - {{ $warehouse->name }}</option>
+                        <option value="{{ $warehouse->id }}" @selected(old('warehouse_id', $location->warehouse_id) === $warehouse->id)>{{ $warehouse->code }} - {{ $warehouse->name }}</option>
                     @endforeach
                 </x-wms.select>
             </x-wms.field>

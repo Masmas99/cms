@@ -22,7 +22,7 @@
                             <x-wms.select id="product_id" name="product_id" required>
                                 <option value="">Pilih produk</option>
                                 @foreach ($products as $product)
-                                    <option value="{{ $product->id }}" @selected((int) old('product_id') === $product->id)>{{ $product->sku }} - {{ $product->name }}</option>
+                                    <option value="{{ $product->id }}" @selected(old('product_id') === $product->id)>{{ $product->sku }} - {{ $product->name }}</option>
                                 @endforeach
                             </x-wms.select>
                         </x-wms.field>
@@ -33,7 +33,7 @@
                                 @foreach ($locations->groupBy(fn ($location) => $location->warehouse?->name ?? 'Tanpa gudang') as $warehouseName => $warehouseLocations)
                                     <optgroup label="{{ $warehouseName }}">
                                         @foreach ($warehouseLocations as $location)
-                                            <option value="{{ $location->id }}" @selected((int) old('location_id') === $location->id)>{{ $location->full_code }}</option>
+                                            <option value="{{ $location->id }}" @selected(old('location_id') === $location->id)>{{ $location->full_code }}</option>
                                         @endforeach
                                     </optgroup>
                                 @endforeach

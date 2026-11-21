@@ -98,7 +98,7 @@
                                                         icon="trash"
                                                         label="Hapus {{ $location->full_code }}"
                                                         variant="danger"
-                                                        @click="$dispatch('wms-delete', { action: @js(wms_route('locations.destroy', $location)), name: @js($location->full_code) })"
+                                                        x-on:click="$dispatch('wms-delete', { action: {{ Js::from(wms_route('locations.destroy', $location)) }}, name: {{ Js::from($location->full_code) }} })"
                                                     />
                                                 @endunless
                                             @endif

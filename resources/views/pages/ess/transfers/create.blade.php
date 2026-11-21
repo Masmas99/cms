@@ -35,7 +35,7 @@
                                     <option
                                         value="{{ $stock->id }}"
                                         data-available="{{ (float) $stock->availableQuantity() }}"
-                                        @selected((int) old('inventory_stock_id', $selectedStock?->id) === $stock->id)
+                                        @selected(old('inventory_stock_id', $selectedStock?->id) === $stock->id)
                                     >
                                         {{ $stock->product?->sku }} | {{ $stock->product?->name }} | {{ $stock->location?->full_code }} | batch {{ $stock->batch_number }} | tersedia {{ number_format($stock->availableQuantity(), 2, ',', '.') }}
                                     </option>
@@ -54,7 +54,7 @@
                                 @foreach ($locations->groupBy(fn ($location) => $location->warehouse?->name ?? 'Tanpa gudang') as $warehouseName => $warehouseLocations)
                                     <optgroup label="{{ $warehouseName }}">
                                         @foreach ($warehouseLocations as $location)
-                                            <option value="{{ $location->id }}" @selected((int) old('to_location_id') === $location->id)>
+                                            <option value="{{ $location->id }}" @selected(old('to_location_id') === $location->id)>
                                                 {{ $location->full_code }} | kapasitas {{ number_format($location->capacity_m3, 2, ',', '.') }} m3
                                             </option>
                                         @endforeach

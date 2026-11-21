@@ -55,7 +55,7 @@
                                     >
                                         <option value="">Lewati baris ini</option>
                                         @foreach ($locations as $location)
-                                            <option value="{{ $location->id }}" @selected((int) old('items.'.$item->id.'.location_id', $suggestions[$item->id] ?? null) === $location->id)>
+                                            <option value="{{ $location->id }}" @selected(old('items.'.$item->id.'.location_id', $suggestions[$item->id] ?? null) === $location->id)>
                                                 {{ $location->full_code }} | stok {{ number_format((float) $location->qty_on_hand, 2, ',', '.') }} | kapasitas {{ number_format($location->capacity_m3, 2, ',', '.') }} m3
                                             </option>
                                         @endforeach

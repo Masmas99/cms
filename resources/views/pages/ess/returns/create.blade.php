@@ -37,7 +37,7 @@
                             <x-wms.select id="sales_order_id" name="sales_order_id">
                                 <option value="">Tanpa sales order</option>
                                 @foreach ($salesOrders as $order)
-                                    <option value="{{ $order->id }}" @selected((int) old('sales_order_id', $salesOrder?->id) === $order->id)>{{ $order->reference_no }} | {{ $order->customer_name }}</option>
+                                    <option value="{{ $order->id }}" @selected(old('sales_order_id', $salesOrder?->id) === $order->id)>{{ $order->reference_no }} | {{ $order->customer_name }}</option>
                                 @endforeach
                             </x-wms.select>
                         </x-wms.field>

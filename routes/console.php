@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -23,3 +24,7 @@ Artisan::command('user:make-admin {email}', function (string $email) {
 
     return 0;
 })->purpose('Promote a user to admin');
+
+Schedule::command('audit:prune')
+    ->dailyAt('02:00')
+    ->withoutOverlapping();

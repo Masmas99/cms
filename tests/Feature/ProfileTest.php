@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -59,6 +61,81 @@ class ProfileTest extends TestCase
             ->assertRedirect('/profile');
 
         $this->assertNotNull($user->refresh()->email_verified_at);
+    }
+
+    public function test_profile_photo_can_be_uploaded(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/profile/photo', [
+                'photo' => UploadedFile::fake()->image('avatar.jpg'),
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/profile');
+
+        $user->refresh();
+
+        $this->assertNotNull($user->avatar);
+        Storage::disk('public')->assertExists($user->avatar);
+    }
+
+    public function test_profile_photo_must_be_a_valid_image(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/profile')
+            ->post('/profile/photo', [
+                'photo' => UploadedFile::fake()->create('document.pdf', 10, 'application/pdf'),
+            ]);
+
+        $response
+            ->assertSessionHasErrors('photo')
+            ->assertRedirect('/profile');
+
+        $this->assertNull($user->refresh()->avatar);
+    }
+
+    public function test_profile_photo_url_uses_the_current_request_host(): void
+    {
+        $user = User::factory()->create([
+            'avatar' => 'avatars/profile.jpg',
+        ]);
+
+        $this->actingAs($user)
+            ->get('http://20.92.125.158.sslip.io:8088/profile')
+            ->assertOk()
+            ->assertSee('http://20.92.125.158.sslip.io:8088/storage/avatars/profile.jpg', false);
+    }
+
+    public function test_external_profile_photo_url_is_not_rewritten(): void
+    {
+        $user = User::factory()->create([
+            'avatar' => 'https://example.com/avatar.png',
+        ]);
+
+        $this->assertSame('https://example.com/avatar.png', $user->avatarUrl());
+    }
+
+    public function test_profile_photo_is_displayed_in_the_navigation(): void
+    {
+        $user = User::factory()->create([
+            'avatar' => 'avatars/profile.jpg',
+        ]);
+
+        $this->actingAs($user)
+            ->get('/ess')
+            ->assertOk()
+            ->assertSee('storage/avatars/profile.jpg', false);
     }
 
     public function test_user_can_delete_their_account(): void

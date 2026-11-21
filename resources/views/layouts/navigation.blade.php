@@ -4,6 +4,7 @@
     $isAdminUsers = request()->routeIs('admin.users.*');
     $wmsPrefix = Auth::user()->isAdmin() ? 'admin.wms.' : 'ess.wms.';
     $userInitial = strtoupper(mb_substr(Auth::user()->name, 0, 1));
+    $userAvatar = Auth::user()->avatarUrl();
 
     $warehouseLinks = [
         ['label' => 'Stok', 'route' => 'stocks.index', 'active' => 'stocks.*', 'icon' => 'M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9'],
@@ -239,9 +240,17 @@
                 'lg:p-2': sidebarCollapsed,
             }"
         >
-            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-sky-500 text-sm font-semibold text-white">
-                {{ $userInitial }}
-            </span>
+            @if ($userAvatar)
+                <img
+                    src="{{ $userAvatar }}"
+                    alt="{{ Auth::user()->name }}"
+                    class="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-white"
+                >
+            @else
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-sky-500 text-sm font-semibold text-white">
+                    {{ $userInitial }}
+                </span>
+            @endif
             <div class="min-w-0 flex-1" x-show="! sidebarCollapsed || ! isDesktop">
                 <p class="truncate text-sm font-medium text-slate-900">{{ Auth::user()->name }}</p>
                 <p class="truncate text-xs text-slate-500">{{ Auth::user()->email }}</p>

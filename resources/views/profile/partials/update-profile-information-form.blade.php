@@ -78,9 +78,11 @@
         @csrf
 
         <div class="flex items-center gap-4">
-            @if ($user->avatar)
+            @php($avatarUrl = $user->avatarUrl())
+
+            @if ($avatarUrl)
                 <img
-                    src="{{ str_starts_with($user->avatar, 'http') ? $user->avatar : \Illuminate\Support\Facades\Storage::url($user->avatar) }}"
+                    src="{{ $avatarUrl }}"
                     alt="{{ $user->name }}"
                     class="h-16 w-16 rounded-full object-cover"
                 >

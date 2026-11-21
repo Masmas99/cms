@@ -134,8 +134,13 @@
                 </x-wms.card>
 
                 <x-wms.card>
-                    <h3 class="text-sm font-semibold text-slate-900">Okupansi gudang</h3>
-                    <p class="mt-1 text-xs text-slate-500">Bin terisi dibanding total bin.</p>
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-900">Okupansi gudang</h3>
+                            <p class="mt-1 text-xs text-slate-500">Bin terisi dibanding total bin.</p>
+                        </div>
+                        <a href="{{ wms_route('warehouses.index') }}" class="shrink-0 text-xs font-semibold text-blue-600 hover:text-blue-500">Lihat semua</a>
+                    </div>
 
                     <div class="mt-5 space-y-4">
                         @forelse ($warehouses as $warehouse)

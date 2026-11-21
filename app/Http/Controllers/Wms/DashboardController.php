@@ -57,6 +57,7 @@ class DashboardController extends Controller
                 ->where('is_staging', false)
                 ->whereHas('stocks', fn ($stock) => $stock->where('qty_on_hand', '>', 0))])
             ->orderBy('name')
+            ->limit(8)
             ->get();
 
         return view(wms_view('dashboard'), [

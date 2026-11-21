@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -42,6 +43,25 @@ class DashboardTest extends TestCase
     public function test_old_pages_ess_url_redirects_to_the_ess_page(): void
     {
         $this->get('/pages/ess')->assertRedirect('/ess');
+    }
+
+    public function test_dashboard_limits_warehouse_occupancy_to_eight_rows(): void
+    {
+        $user = User::factory()->create();
+
+        foreach (range(1, 10) as $index) {
+            Warehouse::factory()->create(['name' => sprintf('Gudang Uji %02d', $index)]);
+        }
+
+        $this->actingAs($user)
+            ->get('/ess')
+            ->assertOk()
+            ->assertSee('Okupansi gudang')
+            ->assertSee('Gudang Uji 01')
+            ->assertSee('Gudang Uji 08')
+            ->assertDontSee('Gudang Uji 09')
+            ->assertDontSee('Gudang Uji 10')
+            ->assertSee(route('ess.wms.warehouses.index'), false);
     }
 
     public function test_dashboard_shows_a_welcome_toast_for_new_users(): void

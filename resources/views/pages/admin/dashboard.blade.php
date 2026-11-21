@@ -94,7 +94,7 @@
             @endif
 
             <div class="grid gap-6 xl:grid-cols-3">
-                <x-wms.card class="xl:col-span-2">
+                <x-wms.card class="animate-fade-in-up xl:col-span-2">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h3 class="text-sm font-semibold text-slate-900">Arus barang</h3>
@@ -115,13 +115,13 @@
                             <div class="group flex h-full min-w-0 flex-1 flex-col justify-end gap-1">
                                 <div class="flex h-full items-end justify-center gap-0.5">
                                     <div
-                                        class="w-1/2 max-w-3 rounded-t-sm bg-emerald-500/90 transition group-hover:bg-emerald-500"
-                                        style="height: {{ max(2, round(($trend['inbound'][$index] / $trend['max']) * 100)) }}%"
+                                        class="chart-bar w-1/2 max-w-3 rounded-t-sm bg-emerald-500/90 transition group-hover:bg-emerald-500"
+                                        style="height: {{ max(2, round(($trend['inbound'][$index] / $trend['max']) * 100)) }}%; animation-delay: {{ min(360, $index * 20) }}ms"
                                         title="{{ $label }} masuk: {{ $format($trend['inbound'][$index]) }}"
                                     ></div>
                                     <div
-                                        class="w-1/2 max-w-3 rounded-t-sm bg-blue-500/90 transition group-hover:bg-blue-500"
-                                        style="height: {{ max(2, round(($trend['outbound'][$index] / $trend['max']) * 100)) }}%"
+                                        class="chart-bar w-1/2 max-w-3 rounded-t-sm bg-blue-500/90 transition group-hover:bg-blue-500"
+                                        style="height: {{ max(2, round(($trend['outbound'][$index] / $trend['max']) * 100)) }}%; animation-delay: {{ min(360, $index * 20) }}ms"
                                         title="{{ $label }} keluar: {{ $format($trend['outbound'][$index]) }}"
                                     ></div>
                                 </div>

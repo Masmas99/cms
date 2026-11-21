@@ -28,6 +28,34 @@ class AdminUserManagementTest extends TestCase
             ->assertSee(route('admin.users.create'), false);
     }
 
+    public function test_user_management_uses_the_application_pagination_style(): void
+    {
+        $admin = User::factory()->admin()->create(['name' => 'Admin Current']);
+        User::factory()->count(15)->create();
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.index'))
+            ->assertOk()
+            ->assertSee('Showing', false)
+            ->assertSee('results', false)
+            ->assertSee('bg-brand-600', false);
+    }
+
+    public function test_user_management_shows_uploaded_profile_photos(): void
+    {
+        $admin = User::factory()->admin()->create(['name' => 'Admin Current']);
+        User::factory()->create([
+            'name' => 'Budi Santoso',
+            'avatar' => 'avatars/budi.jpg',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.index'))
+            ->assertOk()
+            ->assertSee('storage/avatars/budi.jpg', false)
+            ->assertSee('alt="Budi Santoso"', false);
+    }
+
     public function test_regular_users_cannot_access_user_management(): void
     {
         $user = User::factory()->create();

@@ -77,10 +77,10 @@
                                     <td class="px-6 py-4 text-right font-medium text-slate-700">{{ $order->items_count }}</td>
                                     <td class="px-6 py-4"><x-wms.status :status="$order->status" /></td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="{{ wms_route('purchase-orders.show', $order) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700">Detail</a>
+                                        <div class="flex items-center justify-end gap-1">
+                                            <x-wms.icon-button :href="wms_route('purchase-orders.show', $order)" icon="eye" label="Detail {{ $order->reference_no }}" />
                                             @if (in_array($order->status, ['scheduled', 'receiving'], true))
-                                                <a href="{{ wms_route('purchase-orders.receive', $order) }}" class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100">Receive</a>
+                                                <x-wms.icon-button :href="wms_route('purchase-orders.receive', $order)" icon="receive" label="Receive {{ $order->reference_no }}" variant="primary" />
                                             @endif
                                         </div>
                                     </td>

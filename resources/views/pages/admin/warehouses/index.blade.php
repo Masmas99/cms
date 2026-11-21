@@ -66,12 +66,17 @@
                                     <td class="px-6 py-4 text-right font-medium text-slate-700">{{ $warehouse->total_bins }}</td>
                                     <td class="px-6 py-4"><x-wms.status :status="$warehouse->is_active ? 'approved' : 'draft'" :label="$warehouse->is_active ? 'Aktif' : 'Nonaktif'" /></td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="{{ wms_route('warehouses.show', $warehouse) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700">Detail</a>
+                                        <div class="flex items-center justify-end gap-1">
+                                            <x-wms.icon-button :href="wms_route('warehouses.show', $warehouse)" icon="eye" label="Detail {{ $warehouse->name }}" />
 
                                             @if (Auth::user()->isAdmin())
-                                                <a href="{{ wms_route('warehouses.edit', $warehouse) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-50">Edit</a>
-                                                <button type="button" @click="$dispatch('wms-delete', { action: @js(wms_route('warehouses.destroy', $warehouse)), name: @js($warehouse->name) })" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50">Hapus</button>
+                                                <x-wms.icon-button :href="wms_route('warehouses.edit', $warehouse)" icon="pencil" label="Edit {{ $warehouse->name }}" variant="primary" />
+                                                <x-wms.icon-button
+                                                    icon="trash"
+                                                    label="Hapus {{ $warehouse->name }}"
+                                                    variant="danger"
+                                                    @click="$dispatch('wms-delete', { action: @js(wms_route('warehouses.destroy', $warehouse)), name: @js($warehouse->name) })"
+                                                />
                                             @endif
                                         </div>
                                     </td>

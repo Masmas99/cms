@@ -501,4 +501,31 @@ class WmsAccessTest extends TestCase
             ],
         ]);
     }
+
+    public function test_admins_can_download_the_stock_card_as_an_excel_spreadsheet(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create([
+            'sku' => 'SKU-001',
+            'name' => 'Produk Uji',
+            'uom' => 'pcs',
+        ]);
+
+        $response = $this->actingAs($admin)->get(wms_route('reports.ledger.export', [
+            'product' => $product->id,
+            'from' => '2026-01-01',
+            'to' => '2026-01-31',
+        ]));
+
+        $response
+            ->assertOk()
+            ->assertHeader('content-type', 'application/vnd.ms-excel; charset=UTF-8')
+            ->assertDownload('kartu-stok-SKU-001-20260101-20260131.xls');
+
+        $content = $response->streamedContent();
+
+        $this->assertStringContainsString('Kartu Stok', $content);
+        $this->assertStringContainsString('Produk Uji', $content);
+        $this->assertStringContainsString('SKU-001', $content);
+    }
 }

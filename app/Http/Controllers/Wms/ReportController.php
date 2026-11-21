@@ -69,7 +69,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Export the stock card as CSV.
+     * Export the stock card as a formatted Excel spreadsheet.
      */
     public function ledgerExport(Request $request): StreamedResponse
     {
@@ -90,31 +90,32 @@ class ReportController extends Controller
             ->orderBy('id')
             ->get();
 
-        return response()->streamDownload(function () use ($product, $movements, $initial): void {
-            $handle = fopen('php://output', 'wb');
-            fwrite($handle, "\xEF\xBB\xBF");
-            fputcsv($handle, ['SKU', 'Produk', 'Tanggal', 'Tipe', 'Referensi', 'Lokasi', 'User', 'Masuk', 'Keluar', 'Saldo']);
+        $running = $initial;
+        $rows = $movements->map(function (StockMovement $movement) use (&$running): array {
+            $running += (float) $movement->quantity;
 
-            $running = $initial;
+            return [
+                'movement' => $movement,
+                'in' => $movement->quantity > 0 ? (float) $movement->quantity : 0.0,
+                'out' => $movement->quantity < 0 ? abs((float) $movement->quantity) : 0.0,
+                'balance' => $running,
+            ];
+        });
 
-            foreach ($movements as $movement) {
-                $running += $movement->quantity;
-                fputcsv($handle, [
-                    $product->sku,
-                    $product->name,
-                    $movement->created_at?->format('Y-m-d H:i'),
-                    $movement->typeLabel(),
-                    $movement->reference_no,
-                    $movement->location?->full_code,
-                    $movement->user?->name,
-                    $movement->quantity > 0 ? $movement->quantity : 0,
-                    $movement->quantity < 0 ? abs($movement->quantity) : 0,
-                    $running,
-                ]);
-            }
+        $html = view('pages.admin.reports.ledger-excel', [
+            'product' => $product,
+            'rows' => $rows,
+            'initial' => $initial,
+            'final' => $running,
+            'from' => $from->toDateString(),
+            'to' => $to->toDateString(),
+        ])->render();
 
-            fclose($handle);
-        }, 'kartu-stok-'.$product->sku.'.csv', ['Content-Type' => 'text/csv']);
+        $filename = 'kartu-stok-'.str_replace(['/', '\\'], '-', $product->sku).'-'.$from->format('Ymd').'-'.$to->format('Ymd').'.xls';
+
+        return response()->streamDownload(function () use ($html): void {
+            echo "\xEF\xBB\xBF".$html;
+        }, $filename, ['Content-Type' => 'application/vnd.ms-excel; charset=UTF-8']);
     }
 
     /**

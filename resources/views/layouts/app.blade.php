@@ -32,12 +32,12 @@
             @include('layouts.navigation')
 
             <div :class="sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-72'" class="transition-[padding] duration-300">
-                <!-- Mobile top bar -->
-                <header class="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-blue-100 bg-white/90 px-4 backdrop-blur lg:hidden">
+                <!-- Top bar -->
+                <header class="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-blue-100 bg-white/90 px-4 backdrop-blur sm:px-6 lg:px-8">
                     <button
                         type="button"
                         @click="sidebarOpen = true"
-                        class="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        class="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:hidden"
                         aria-controls="app-sidebar"
                     >
                         <span class="sr-only">Buka menu</span>
@@ -46,10 +46,19 @@
                         </svg>
                     </button>
 
-                    <a href="{{ Auth::user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" class="flex items-center gap-2.5">
+                    <a href="{{ Auth::user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" class="flex items-center gap-2.5 lg:hidden">
                         <x-application-logo class="h-8 w-8 rounded-xl object-cover shadow-sm shadow-blue-600/20 ring-1 ring-blue-100" />
                         <span class="text-sm font-semibold tracking-tight text-slate-900">Rumitech</span>
                     </a>
+
+                    <p class="hidden text-sm font-semibold tracking-tight text-slate-900 lg:block">
+                        Rumitech
+                        <span class="font-normal text-slate-400">/ Warehouse Management System</span>
+                    </p>
+
+                    <div class="ml-auto">
+                        <x-profile-dropdown />
+                    </div>
                 </header>
 
                 <!-- Page Heading -->

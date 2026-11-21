@@ -98,18 +98,17 @@
                                         <x-wms.status :status="$product->is_active ? 'approved' : 'draft'" :label="$product->is_active ? 'Aktif' : 'Nonaktif'" />
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="{{ wms_route('products.show', $product) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700">Detail</a>
+                                        <div class="flex items-center justify-end gap-1">
+                                            <x-wms.icon-button :href="wms_route('products.show', $product)" icon="eye" label="Detail {{ $product->name }}" />
 
                                             @if (Auth::user()->isAdmin())
-                                                <a href="{{ wms_route('products.edit', $product) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-50">Edit</a>
-                                                <button
-                                                    type="button"
+                                                <x-wms.icon-button :href="wms_route('products.edit', $product)" icon="pencil" label="Edit {{ $product->name }}" variant="primary" />
+                                                <x-wms.icon-button
+                                                    icon="trash"
+                                                    label="Hapus {{ $product->name }}"
+                                                    variant="danger"
                                                     @click="$dispatch('wms-delete', { action: @js(wms_route('products.destroy', $product)), name: @js($product->name) })"
-                                                    class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50"
-                                                >
-                                                    Hapus
-                                                </button>
+                                                />
                                             @endif
                                         </div>
                                     </td>

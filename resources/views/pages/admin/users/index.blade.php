@@ -109,9 +109,19 @@
                                 <tr class="transition hover:bg-blue-50/40">
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-3">
-                                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-sky-500 text-sm font-semibold text-white">
-                                                {{ strtoupper(mb_substr($user->name, 0, 1)) }}
-                                            </span>
+                                            @php($avatarUrl = $user->avatarUrl())
+
+                                            @if ($avatarUrl)
+                                                <img
+                                                    src="{{ $avatarUrl }}"
+                                                    alt="{{ $user->name }}"
+                                                    class="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-blue-100"
+                                                >
+                                            @else
+                                                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-sky-500 text-sm font-semibold text-white">
+                                                    {{ strtoupper(mb_substr($user->name, 0, 1)) }}
+                                                </span>
+                                            @endif
                                             <div class="min-w-0">
                                                 <p class="truncate font-medium text-slate-900">
                                                     {{ $user->name }}
@@ -134,22 +144,21 @@
                                         {{ $user->created_at?->format('d M Y') ?? '-' }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a
-                                                href="{{ route('admin.users.edit', $user) }}"
-                                                class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            >
-                                                Edit
-                                            </a>
+                                        <div class="flex items-center justify-end gap-1">
+                                            <x-wms.icon-button
+                                                :href="route('admin.users.edit', $user)"
+                                                icon="pencil"
+                                                label="Edit {{ $user->name }}"
+                                                variant="primary"
+                                            />
 
                                             @if (! $user->is(Auth::user()))
-                                                <button
-                                                    type="button"
+                                                <x-wms.icon-button
+                                                    icon="trash"
+                                                    label="Hapus {{ $user->name }}"
+                                                    variant="danger"
                                                     @click="confirmDelete(@js(route('admin.users.destroy', $user)), @js($user->name))"
-                                                    class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500"
-                                                >
-                                                    Hapus
-                                                </button>
+                                                />
                                             @endif
                                         </div>
                                     </td>

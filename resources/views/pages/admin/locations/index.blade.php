@@ -87,14 +87,19 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="{{ wms_route('locations.show', $location) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700">Detail</a>
+                                        <div class="flex items-center justify-end gap-1">
+                                            <x-wms.icon-button :href="wms_route('locations.show', $location)" icon="eye" label="Detail {{ $location->full_code }}" />
 
                                             @if (Auth::user()->isAdmin())
-                                                <a href="{{ wms_route('locations.edit', $location) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-50">Edit</a>
+                                                <x-wms.icon-button :href="wms_route('locations.edit', $location)" icon="pencil" label="Edit {{ $location->full_code }}" variant="primary" />
 
                                                 @unless ($location->is_staging)
-                                                    <button type="button" @click="$dispatch('wms-delete', { action: @js(wms_route('locations.destroy', $location)), name: @js($location->full_code) })" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50">Hapus</button>
+                                                    <x-wms.icon-button
+                                                        icon="trash"
+                                                        label="Hapus {{ $location->full_code }}"
+                                                        variant="danger"
+                                                        @click="$dispatch('wms-delete', { action: @js(wms_route('locations.destroy', $location)), name: @js($location->full_code) })"
+                                                    />
                                                 @endunless
                                             @endif
                                         </div>

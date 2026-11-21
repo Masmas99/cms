@@ -84,7 +84,7 @@
                                     <td class="px-5 py-3 text-right font-medium text-slate-700">{{ $location->occupied_lots }}</td>
                                     <td class="px-5 py-3"><x-wms.status :status="$location->is_active ? 'approved' : 'draft'" :label="$location->is_active ? 'Aktif' : 'Nonaktif'" /></td>
                                     <td class="px-5 py-3 text-right sm:px-6">
-                                        <a href="{{ wms_route('locations.show', $location) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-50">Detail</a>
+                                        <x-wms.icon-button :href="wms_route('locations.show', $location)" icon="eye" label="Detail {{ $location->full_code }}" variant="primary" />
                                     </td>
                                 </tr>
                             @empty

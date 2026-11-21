@@ -78,12 +78,12 @@
                                     <td class="px-6 py-4 text-right font-medium text-slate-700">{{ number_format((float) $order->picked_qty, 2, ',', '.') }}</td>
                                     <td class="px-6 py-4"><x-wms.status :status="$order->status" /></td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <a href="{{ wms_route('sales-orders.show', $order) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700">Detail</a>
+                                        <div class="flex items-center justify-end gap-1">
+                                            <x-wms.icon-button :href="wms_route('sales-orders.show', $order)" icon="eye" label="Detail {{ $order->reference_no }}" />
                                             @if (in_array($order->status, ['reserved', 'picking'], true))
-                                                <a href="{{ wms_route('sales-orders.picking', $order) }}" class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100">Picking</a>
+                                                <x-wms.icon-button :href="wms_route('sales-orders.picking', $order)" icon="check-circle" label="Picking {{ $order->reference_no }}" variant="primary" />
                                             @elseif ($order->status === 'packed')
-                                                <a href="{{ wms_route('sales-orders.packing', $order) }}" class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100">Packing</a>
+                                                <x-wms.icon-button :href="wms_route('sales-orders.packing', $order)" icon="cube" label="Packing {{ $order->reference_no }}" variant="primary" />
                                             @endif
                                         </div>
                                     </td>

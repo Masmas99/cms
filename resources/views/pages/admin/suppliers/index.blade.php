@@ -71,10 +71,15 @@
                                         <x-wms.status :status="$supplier->is_active ? 'approved' : 'draft'" :label="$supplier->is_active ? 'Aktif' : 'Nonaktif'" />
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center justify-end gap-2">
+                                        <div class="flex items-center justify-end gap-1">
                                             @if (Auth::user()->isAdmin())
-                                                <a href="{{ wms_route('suppliers.edit', $supplier) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-50">Edit</a>
-                                                <button type="button" @click="$dispatch('wms-delete', { action: @js(wms_route('suppliers.destroy', $supplier)), name: @js($supplier->name) })" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50">Hapus</button>
+                                                <x-wms.icon-button :href="wms_route('suppliers.edit', $supplier)" icon="pencil" label="Edit {{ $supplier->name }}" variant="primary" />
+                                                <x-wms.icon-button
+                                                    icon="trash"
+                                                    label="Hapus {{ $supplier->name }}"
+                                                    variant="danger"
+                                                    @click="$dispatch('wms-delete', { action: @js(wms_route('suppliers.destroy', $supplier)), name: @js($supplier->name) })"
+                                                />
                                             @else
                                                 <span class="text-xs text-slate-400">Lihat</span>
                                             @endif

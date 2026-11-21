@@ -49,7 +49,7 @@
                                     <td class="px-6 py-4 text-xs text-slate-500">{{ $return->receiver?->name ?? '-' }}</td>
                                     <td class="px-6 py-4"><x-wms.status :status="$return->status" /></td>
                                     <td class="px-6 py-4 text-right">
-                                        <a href="{{ wms_route('returns.show', $return) }}" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-50">Buka</a>
+                                        <x-wms.icon-button :href="wms_route('returns.show', $return)" icon="arrow-right" label="Buka {{ $return->reference_no }}" variant="primary" />
                                     </td>
                                 </tr>
                             @empty

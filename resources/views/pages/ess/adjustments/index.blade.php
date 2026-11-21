@@ -94,21 +94,19 @@
                                     <td class="px-6 py-4"><x-wms.status :status="$adjustment->status" /></td>
                                     <td class="px-6 py-4">
                                         @if (Auth::user()->isAdmin() && $adjustment->status === 'pending')
-                                            <div class="flex items-center justify-end gap-2">
-                                                <button
-                                                    type="button"
+                                            <div class="flex items-center justify-end gap-1">
+                                                <x-wms.icon-button
+                                                    icon="check-circle"
+                                                    label="Setujui {{ $adjustment->reference_no }}"
+                                                    variant="success"
                                                     @click="$dispatch('wms-adjust', { mode: 'approve', action: @js(wms_route('adjustments.approve', $adjustment)), reference: @js($adjustment->reference_no) })"
-                                                    class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-50"
-                                                >
-                                                    Setujui
-                                                </button>
-                                                <button
-                                                    type="button"
+                                                />
+                                                <x-wms.icon-button
+                                                    icon="x-mark"
+                                                    label="Tolak {{ $adjustment->reference_no }}"
+                                                    variant="danger"
                                                     @click="$dispatch('wms-adjust', { mode: 'reject', action: @js(wms_route('adjustments.reject', $adjustment)), reference: @js($adjustment->reference_no) })"
-                                                    class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50"
-                                                >
-                                                    Tolak
-                                                </button>
+                                                />
                                             </div>
                                         @else
                                             <div class="text-right text-xs text-slate-400">

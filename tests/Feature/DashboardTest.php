@@ -64,6 +64,21 @@ class DashboardTest extends TestCase
             ->assertSee(route('ess.wms.warehouses.index'), false);
     }
 
+    public function test_dashboard_renders_the_goods_flow_chart_for_each_period(): void
+    {
+        $user = User::factory()->create();
+
+        foreach ([7 => 'max-w-[2rem]', 30 => 'max-w-[0.75rem]', 90 => 'max-w-[0.25rem]'] as $days => $barWidthClass) {
+            $this->actingAs($user)
+                ->get('/ess?days='.$days)
+                ->assertOk()
+                ->assertViewIs('pages.ess.dashboard')
+                ->assertSee('Arus barang')
+                ->assertSee('chart-bar', false)
+                ->assertSee($barWidthClass, false);
+        }
+    }
+
     public function test_dashboard_shows_a_welcome_toast_for_new_users(): void
     {
         $user = User::factory()->create(['name' => 'Mashudi']);

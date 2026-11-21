@@ -38,7 +38,12 @@
 
             return number_format($value, 0, ',', '.');
         };
-        $step = max(1, (int) ceil(count($trend['labels']) / 7));
+        $pointCount = count($trend['labels']);
+        $barMaxWidth = $pointCount <= 7 ? 'max-w-[2rem]' : ($pointCount <= 30 ? 'max-w-[0.75rem]' : 'max-w-[0.25rem]');
+        $barGap = $pointCount <= 7 ? 'gap-1.5' : ($pointCount <= 30 ? 'gap-0.5' : 'gap-px');
+        $columnGap = $pointCount <= 7 ? 'gap-2' : 'gap-px';
+        $chartMinWidth = $pointCount > 30 ? 'min-w-[48rem]' : ($pointCount > 7 ? 'min-w-[36rem]' : '');
+        $step = max(1, (int) ceil($pointCount / 7));
     @endphp
 
     <div class="py-8">
@@ -110,26 +115,40 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 flex h-48 items-end gap-1.5 sm:gap-2">
-                        @foreach ($trend['labels'] as $index => $label)
-                            <div class="group flex h-full min-w-0 flex-1 flex-col justify-end gap-1">
-                                <div class="flex h-full items-end justify-center gap-0.5">
-                                    <div
-                                        class="chart-bar w-1/2 max-w-3 rounded-t-sm bg-emerald-500/90 transition group-hover:bg-emerald-500"
-                                        style="height: {{ max(2, round(($trend['inbound'][$index] / $trend['max']) * 100)) }}%; animation-delay: {{ min(360, $index * 20) }}ms"
-                                        title="{{ $label }} masuk: {{ $format($trend['inbound'][$index]) }}"
-                                    ></div>
-                                    <div
-                                        class="chart-bar w-1/2 max-w-3 rounded-t-sm bg-blue-500/90 transition group-hover:bg-blue-500"
-                                        style="height: {{ max(2, round(($trend['outbound'][$index] / $trend['max']) * 100)) }}%; animation-delay: {{ min(360, $index * 20) }}ms"
-                                        title="{{ $label }} keluar: {{ $format($trend['outbound'][$index]) }}"
-                                    ></div>
+                    <div class="mt-6 overflow-x-auto">
+                        <div class="{{ $chartMinWidth }} {{ $chartMinWidth !== '' ? 'lg:min-w-0' : '' }} pb-5">
+                            <div class="relative h-64">
+                                <div class="pointer-events-none absolute inset-0 flex flex-col justify-between" aria-hidden="true">
+                                    @for ($gridLine = 0; $gridLine < 4; $gridLine++)
+                                        <div class="border-t border-dashed border-slate-100"></div>
+                                    @endfor
+                                    <div class="border-t border-slate-200"></div>
                                 </div>
-                                <span class="truncate text-center text-[10px] text-slate-400">
-                                    {{ $index % $step === 0 ? $label : '' }}
-                                </span>
+
+                                <div class="relative flex h-full items-end {{ $columnGap }}">
+                                    @foreach ($trend['labels'] as $index => $label)
+                                        <div class="group relative flex h-full min-w-0 flex-1 items-end justify-center {{ $barGap }}">
+                                            <div
+                                                class="chart-bar flex-1 {{ $barMaxWidth }} rounded-t-sm bg-emerald-500/90 transition group-hover:bg-emerald-500"
+                                                style="height: {{ max(2, round(($trend['inbound'][$index] / $trend['max']) * 100)) }}%; animation-delay: {{ min(360, $index * 20) }}ms"
+                                                title="{{ $label }} masuk: {{ $format($trend['inbound'][$index]) }}"
+                                            ></div>
+                                            <div
+                                                class="chart-bar flex-1 {{ $barMaxWidth }} rounded-t-sm bg-blue-500/90 transition group-hover:bg-blue-500"
+                                                style="height: {{ max(2, round(($trend['outbound'][$index] / $trend['max']) * 100)) }}%; animation-delay: {{ min(360, $index * 20) }}ms"
+                                                title="{{ $label }} keluar: {{ $format($trend['outbound'][$index]) }}"
+                                            ></div>
+
+                                            @if ($index % $step === 0 || $index === $pointCount - 1)
+                                                <span class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-medium text-slate-400">
+                                                    {{ $label }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        @endforeach
+                        </div>
                     </div>
                 </x-wms.card>
 
@@ -142,7 +161,7 @@
                         <a href="{{ wms_route('warehouses.index') }}" class="shrink-0 text-xs font-semibold text-blue-600 hover:text-blue-500">Lihat semua</a>
                     </div>
 
-                    <div class="mt-5 space-y-4">
+                    <div class="mt-5 max-h-72 space-y-4 overflow-y-auto pr-2">
                         @forelse ($warehouses as $warehouse)
                             @php
                                 $percent = $warehouse->total_bins > 0 ? round($warehouse->occupied_bins / $warehouse->total_bins * 100) : 0;

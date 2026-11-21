@@ -1,42 +1,42 @@
 @if ($paginator->hasPages())
-    <nav role="navigation" aria-label="{{ __('Pagination Navigation') }}" class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <nav role="navigation" aria-label="Navigasi halaman" class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p class="text-sm leading-5 text-slate-500">
-            {{ __('Showing') }}
+            Menampilkan
             @if ($paginator->firstItem())
                 <span class="font-semibold text-slate-900">{{ $paginator->firstItem() }}</span>
-                <span class="text-slate-400">{{ __('to') }}</span>
+                <span class="text-slate-400">sampai</span>
                 <span class="font-semibold text-slate-900">{{ $paginator->lastItem() }}</span>
             @else
                 <span class="font-semibold text-slate-900">{{ $paginator->count() }}</span>
             @endif
-            {{ __('of') }}
+            dari
             <span class="font-semibold text-slate-900">{{ $paginator->total() }}</span>
-            {{ __('results') }}
+            hasil
         </p>
 
         <div class="flex items-center justify-between gap-2 sm:justify-end">
             @if ($paginator->onFirstPage())
                 <span
                     aria-disabled="true"
-                    aria-label="{{ __('pagination.previous') }}"
+                    aria-label="Sebelumnya"
                     class="inline-flex h-9 cursor-not-allowed items-center gap-1.5 rounded-lg border border-blue-100 bg-white px-2.5 text-sm font-semibold text-slate-300 shadow-sm shadow-blue-900/5"
                 >
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
-                    <span class="hidden sm:inline">{{ __('pagination.previous') }}</span>
+                    <span class="hidden sm:inline">Sebelumnya</span>
                 </span>
             @else
                 <a
                     href="{{ $paginator->previousPageUrl() }}"
                     rel="prev"
-                    aria-label="{{ __('pagination.previous') }}"
+                    aria-label="Sebelumnya"
                     class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-blue-100 bg-white px-2.5 text-sm font-semibold text-slate-600 shadow-sm shadow-blue-900/5 transition hover:border-blue-200 hover:bg-brand-50 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
-                    <span class="hidden sm:inline">{{ __('pagination.previous') }}</span>
+                    <span class="hidden sm:inline">Sebelumnya</span>
                 </a>
             @endif
 
@@ -60,7 +60,7 @@
                             @else
                                 <a
                                     href="{{ $url }}"
-                                    aria-label="{{ __('Go to page :page', ['page' => $page]) }}"
+                                    aria-label="Buka halaman {{ $page }}"
                                     class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg border border-transparent px-2 text-sm font-semibold text-slate-500 transition hover:border-blue-100 hover:bg-brand-50 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
                                 >
                                     {{ $page }}
@@ -79,10 +79,10 @@
                 <a
                     href="{{ $paginator->nextPageUrl() }}"
                     rel="next"
-                    aria-label="{{ __('pagination.next') }}"
+                    aria-label="Berikutnya"
                     class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-blue-100 bg-white px-2.5 text-sm font-semibold text-slate-600 shadow-sm shadow-blue-900/5 transition hover:border-blue-200 hover:bg-brand-50 hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                    <span class="hidden sm:inline">{{ __('pagination.next') }}</span>
+                    <span class="hidden sm:inline">Berikutnya</span>
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
@@ -90,10 +90,10 @@
             @else
                 <span
                     aria-disabled="true"
-                    aria-label="{{ __('pagination.next') }}"
+                    aria-label="Berikutnya"
                     class="inline-flex h-9 cursor-not-allowed items-center gap-1.5 rounded-lg border border-blue-100 bg-white px-2.5 text-sm font-semibold text-slate-300 shadow-sm shadow-blue-900/5"
                 >
-                    <span class="hidden sm:inline">{{ __('pagination.next') }}</span>
+                    <span class="hidden sm:inline">Berikutnya</span>
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>

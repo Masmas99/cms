@@ -38,8 +38,10 @@ class AdminUserManagementTest extends TestCase
         $this->actingAs($admin)
             ->get(route('admin.users.index'))
             ->assertOk()
-            ->assertSee('Showing', false)
-            ->assertSee('results', false)
+            ->assertSee('Menampilkan', false)
+            ->assertSee('hasil', false)
+            ->assertSee('Sebelumnya', false)
+            ->assertSee('Berikutnya', false)
             ->assertSee('bg-brand-600', false);
     }
 

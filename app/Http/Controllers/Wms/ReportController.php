@@ -21,7 +21,8 @@ class ReportController extends Controller
     public function ledger(Request $request): View
     {
         $products = Product::query()->orderBy('name')->get();
-        $product = $products->firstWhere('id', $request->integer('product')) ?? $products->first();
+        $productId = $request->string('product')->trim()->toString();
+        $product = $products->firstWhere('id', $productId) ?? $products->first();
 
         $from = $this->date($request->input('from'), now()->startOfMonth());
         $to = $this->date($request->input('to'), now());
@@ -73,7 +74,7 @@ class ReportController extends Controller
      */
     public function ledgerExport(Request $request): StreamedResponse
     {
-        $product = Product::query()->findOrFail($request->integer('product'));
+        $product = Product::query()->findOrFail($request->string('product')->trim()->toString());
         $from = $this->date($request->input('from'), now()->startOfMonth());
         $to = $this->date($request->input('to'), now());
 

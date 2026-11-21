@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['reference_no', 'sales_order_id', 'customer_name', 'status', 'notes', 'received_by'])]
 class ReturnOrder extends Model
 {
+    use HasUuids;
+
     public const STATUS_RECEIVED = 'received';
 
     public const STATUS_COMPLETED = 'completed';

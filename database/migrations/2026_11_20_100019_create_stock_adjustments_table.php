@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_adjustments', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('reference_no')->unique();
-            $table->foreignId('stock_opname_item_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('location_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('stock_opname_item_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUuid('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('location_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->string('batch_number')->default('');
             $table->decimal('quantity_difference', 12, 2);
             $table->text('reason');
             $table->string('status', 20)->default('pending')->index();
-            $table->foreignId('requested_by')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('requested_by')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('approved_by')->nullable()->constrained('users')->nullOnDelete();
             $table->dateTime('decided_at')->nullable();
             $table->text('decision_note')->nullable();
             $table->timestamps();

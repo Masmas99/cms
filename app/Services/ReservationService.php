@@ -199,7 +199,7 @@ class ReservationService
     /**
      * Hand the parcel to the courier and capture the tracking number.
      */
-    public function ship(SalesOrder $order, ?int $courierId, ?string $trackingNumber, User $user): void
+    public function ship(SalesOrder $order, ?string $courierId, ?string $trackingNumber, User $user): void
     {
         DB::transaction(function () use ($order, $courierId, $trackingNumber, $user): void {
             $order = SalesOrder::query()->lockForUpdate()->with('items.allocations')->findOrFail($order->id);

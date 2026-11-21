@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('return_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('return_order_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('return_order_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->decimal('quantity', 12, 2);
             $table->string('condition', 20)->default('good');
             $table->string('disposition', 20)->default('pending')->index();
-            $table->foreignId('location_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUuid('location_id')->nullable()->constrained()->nullOnDelete();
             $table->string('batch_number')->default('');
             $table->text('notes')->nullable();
-            $table->foreignId('decided_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('decided_by')->nullable()->constrained('users')->nullOnDelete();
             $table->dateTime('decided_at')->nullable();
             $table->timestamps();
         });

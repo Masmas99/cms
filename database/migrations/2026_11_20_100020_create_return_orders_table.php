@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('return_orders', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('reference_no')->unique();
-            $table->foreignId('sales_order_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUuid('sales_order_id')->nullable()->constrained()->nullOnDelete();
             $table->string('customer_name');
             $table->string('status', 20)->default('received')->index();
             $table->text('notes')->nullable();
-            $table->foreignId('received_by')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('received_by')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
         });
     }

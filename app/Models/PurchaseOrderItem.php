@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable(['purchase_order_id', 'product_id', 'qty_expected', 'qty_received', 'qty_rejected'])]
 class PurchaseOrderItem extends Model
 {
+    use HasUuids;
+
     /**
      * Get the attributes that should be cast.
      *

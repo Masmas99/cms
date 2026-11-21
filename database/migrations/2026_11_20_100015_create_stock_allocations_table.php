@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_allocations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('sales_order_item_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('inventory_stock_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('sales_order_item_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('inventory_stock_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->decimal('quantity', 12, 2);
             $table->unsignedInteger('pick_sequence')->default(0);
             $table->dateTime('picked_at')->nullable();

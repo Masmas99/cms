@@ -17,7 +17,7 @@ class StockController extends Controller
     public function index(Request $request): View
     {
         $search = $request->string('search')->trim()->toString();
-        $warehouseId = $request->integer('warehouse');
+        $warehouseId = $request->string('warehouse')->trim()->toString();
         $filter = $request->string('filter')->trim()->toString();
 
         $stocks = InventoryStock::query()
@@ -28,7 +28,7 @@ class StockController extends Controller
                     ->orWhere('name', 'like', "%{$search}%")
                     ->orWhere('barcode', 'like', "%{$search}%"));
             })
-            ->when($warehouseId > 0, fn (Builder $query) => $query->whereHas('location', fn (Builder $location) => $location->where('warehouse_id', $warehouseId)))
+            ->when($warehouseId !== '', fn (Builder $query) => $query->whereHas('location', fn (Builder $location) => $location->where('warehouse_id', $warehouseId)))
             ->when($filter === 'available', fn (Builder $query) => $query->whereRaw('qty_on_hand - qty_reserved > 0'))
             ->when($filter === 'empty', fn (Builder $query) => $query->where('qty_on_hand', '<=', 0))
             ->when($filter === 'expiring', fn (Builder $query) => $query

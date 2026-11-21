@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_opnames', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('reference_no')->unique();
-            $table->foreignId('warehouse_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('warehouse_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->string('zone')->nullable();
             $table->date('scheduled_date');
             $table->string('status', 20)->default('counting')->index();
             $table->text('notes')->nullable();
-            $table->foreignId('created_by')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('created_by')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
             $table->dateTime('completed_at')->nullable();
             $table->timestamps();
         });

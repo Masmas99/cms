@@ -19,7 +19,7 @@ class LocationController extends Controller
     public function index(Request $request): View
     {
         $search = $request->string('search')->trim()->toString();
-        $warehouseId = $request->integer('warehouse');
+        $warehouseId = $request->string('warehouse')->trim()->toString();
         $zone = $request->string('zone')->trim()->toString();
 
         $locations = Location::query()
@@ -31,7 +31,7 @@ class LocationController extends Controller
                         ->orWhere('bin_code', 'like', "%{$search}%");
                 });
             })
-            ->when($warehouseId > 0, fn (Builder $query) => $query->where('warehouse_id', $warehouseId))
+            ->when($warehouseId !== '', fn (Builder $query) => $query->where('warehouse_id', $warehouseId))
             ->when($zone !== '', fn (Builder $query) => $query->where('zone', $zone))
             ->orderBy('warehouse_id')
             ->orderBy('zone')
@@ -55,7 +55,7 @@ class LocationController extends Controller
     {
         return view(wms_view('locations.create'), [
             'location' => new Location([
-                'warehouse_id' => $request->integer('warehouse') ?: null,
+                'warehouse_id' => $request->string('warehouse')->trim()->toString() ?: null,
                 'is_active' => true,
             ]),
             'warehouses' => Warehouse::query()->orderBy('name')->get(),

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_movements', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('location_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('location_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('type', 30)->index();
             $table->decimal('quantity', 12, 2);
             $table->string('batch_number')->default('');

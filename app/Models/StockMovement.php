@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable(['product_id', 'location_id', 'user_id', 'type', 'quantity', 'batch_number', 'expired_date', 'reference_no', 'notes'])]
 class StockMovement extends Model
 {
+    use HasUuids;
+
     public const TYPE_INBOUND = 'inbound';
 
     public const TYPE_OUTBOUND = 'outbound';

@@ -308,7 +308,7 @@ class PurchaseOrderController extends Controller
 
         $data = $request->validate([
             'items' => ['required', 'array'],
-            'items.*.location_id' => ['nullable', 'integer', 'exists:locations,id'],
+            'items.*.location_id' => ['nullable', 'exists:locations,id'],
         ]);
 
         DB::transaction(function () use ($data, $purchaseOrder, $request): void {

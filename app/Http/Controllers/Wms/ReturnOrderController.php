@@ -34,7 +34,7 @@ class ReturnOrderController extends Controller
     public function create(Request $request): View
     {
         $salesOrder = $request->filled('sales_order')
-            ? SalesOrder::query()->find($request->integer('sales_order'))
+            ? SalesOrder::query()->find($request->string('sales_order')->trim()->toString())
             : null;
 
         return view(wms_view('returns.create'), [

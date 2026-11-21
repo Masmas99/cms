@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_opname_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('stock_opname_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('location_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('stock_opname_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('location_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->string('batch_number')->default('');
             $table->decimal('system_qty', 12, 2)->default(0);
             $table->decimal('counted_qty', 12, 2)->nullable();
             $table->decimal('difference', 12, 2)->nullable();
-            $table->foreignId('counted_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('counted_by')->nullable()->constrained('users')->nullOnDelete();
             $table->dateTime('counted_at')->nullable();
             $table->timestamps();
 

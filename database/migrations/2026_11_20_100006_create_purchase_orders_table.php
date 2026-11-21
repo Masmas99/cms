@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('reference_no')->unique();
-            $table->foreignId('supplier_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('warehouse_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('created_by')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('supplier_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('warehouse_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('created_by')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
             $table->date('expected_date');
             $table->string('status', 20)->default('scheduled')->index();
             $table->text('notes')->nullable();

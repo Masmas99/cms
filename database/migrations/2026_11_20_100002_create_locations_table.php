@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('warehouse_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('warehouse_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->string('zone', 30);
             $table->string('aisle', 30);
             $table->string('rack', 30);

@@ -14,7 +14,7 @@ class AuditLogController extends Controller
     public function index(Request $request): View
     {
         $search = $request->string('search')->trim()->toString();
-        $userId = $request->integer('user');
+        $userId = $request->string('user')->trim()->toString();
         $from = $request->input('from');
         $to = $request->input('to');
 
@@ -22,7 +22,7 @@ class AuditLogController extends Controller
             'logs' => AuditLog::query()
                 ->with('user')
                 ->when($search !== '', fn (Builder $query) => $query->where('action', 'like', "%{$search}%"))
-                ->when($userId > 0, fn (Builder $query) => $query->where('user_id', $userId))
+                ->when($userId !== '', fn (Builder $query) => $query->where('user_id', $userId))
                 ->when(is_string($from) && $from !== '', fn (Builder $query) => $query->whereDate('created_at', '>=', $from))
                 ->when(is_string($to) && $to !== '', fn (Builder $query) => $query->whereDate('created_at', '<=', $to))
                 ->latest('created_at')

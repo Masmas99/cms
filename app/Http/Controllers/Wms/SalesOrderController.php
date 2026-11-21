@@ -188,7 +188,7 @@ class SalesOrderController extends Controller
 
         $data = $request->validate([
             'code' => ['nullable', 'string', 'max:120'],
-            'allocation' => ['nullable', 'integer'],
+            'allocation' => ['nullable', 'uuid'],
         ]);
 
         $allocation = $this->resolveAllocation($salesOrder, $data, picked: false);
@@ -247,7 +247,7 @@ class SalesOrderController extends Controller
 
         $data = $request->validate([
             'code' => ['nullable', 'string', 'max:120'],
-            'allocation' => ['nullable', 'integer'],
+            'allocation' => ['nullable', 'uuid'],
         ]);
 
         $allocation = $this->resolveAllocation($salesOrder, $data, picked: true);

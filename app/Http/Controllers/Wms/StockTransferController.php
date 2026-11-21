@@ -39,7 +39,7 @@ class StockTransferController extends Controller
             ->get();
 
         $selectedStock = $request->filled('stock')
-            ? $stocks->firstWhere('id', $request->integer('stock'))
+            ? $stocks->firstWhere('id', $request->string('stock')->trim()->toString())
             : null;
 
         return view(wms_view('transfers.create'), [

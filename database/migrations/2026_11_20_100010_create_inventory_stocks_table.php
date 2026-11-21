@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('inventory_stocks', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('location_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('location_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('product_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->string('batch_number')->default('');
             $table->date('expired_date')->nullable()->index();
             $table->dateTime('received_at');

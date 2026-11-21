@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -144,7 +145,22 @@ class UserController extends Controller
         }
 
         $name = $user->name;
-        $user->delete();
+
+        try {
+            $user->delete();
+        } catch (QueryException $exception) {
+            if (! $this->isForeignKeyConstraintViolation($exception)) {
+                throw $exception;
+            }
+
+            return redirect()
+                ->route('admin.users.index')
+                ->with('popup', [
+                    'type' => 'error',
+                    'title' => 'User tidak dapat dihapus',
+                    'message' => 'Akun '.$name.' masih terhubung dengan data transaksi. Hapus atau pindahkan data terkait terlebih dahulu.',
+                ]);
+        }
 
         return redirect()
             ->route('admin.users.index')
@@ -153,5 +169,14 @@ class UserController extends Controller
                 'title' => 'User berhasil dihapus',
                 'message' => 'Akun '.$name.' telah dihapus.',
             ]);
+    }
+
+    /**
+     * Determine whether the exception was caused by a foreign key constraint.
+     */
+    private function isForeignKeyConstraintViolation(QueryException $exception): bool
+    {
+        return $exception->getCode() === '23000'
+            && str_contains(strtolower($exception->getMessage()), 'foreign key');
     }
 }

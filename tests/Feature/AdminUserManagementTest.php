@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\PurchaseOrder;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -238,6 +239,25 @@ class AdminUserManagementTest extends TestCase
             ->assertSessionHas('popup');
 
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
+    }
+
+    public function test_admins_cannot_delete_users_with_transaction_history(): void
+    {
+        $admin = User::factory()->admin()->create(['name' => 'Admin Current']);
+        $user = User::factory()->create(['name' => 'Budi Santoso']);
+
+        PurchaseOrder::factory()->create(['created_by' => $user->id]);
+
+        $this->actingAs($admin)
+            ->delete(route('admin.users.destroy', $user))
+            ->assertRedirect(route('admin.users.index'))
+            ->assertSessionHas('popup', function (array $popup): bool {
+                return $popup['type'] === 'error'
+                    && $popup['title'] === 'User tidak dapat dihapus'
+                    && str_contains($popup['message'], 'data transaksi');
+            });
+
+        $this->assertDatabaseHas('users', ['id' => $user->id]);
     }
 
     public function test_user_management_uses_a_custom_delete_confirmation_dialog(): void
